@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../asset_img/bootstrap.min.css">
+    <script src="/HtmlTask/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+               
+                        <div class="row">
+                          <div class="col-6 mb-4" > 
+                            <input class="form-control" id="username" placeholder="username">
+                          </div>
+                          <div class="col-6  mb-4" > 
+                            <input class="form-control" id="password" placeholder="password">
+                        </div>
+                          <div class="col-6  mb-4" > 
+                            <input class="form-control" id="email" placeholder="email">
+
+                        </div>
+                          <div class="col-6  mb-4" > 
+                            <input class="form-control" id="phone" placeholder="phone">
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn btn-success"onclick="submit()">submit</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <input onkeyup="searchUp(event)"/>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>s.no</th>
+                                    <th>username</th>
+                                    <th>password</th>
+                                    <th>email</th>
+                                    <th>phone</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </body>
+
+   <script>
+let editindex=-1
+
+let userlist=[
+
+{
+    username:'jai',
+    password:123456,
+    email:"j@gmail.com",
+    phone:123456786543
+},
+{
+    username:'jjdsiai',
+    password:1234345656,
+    email:"j@gmail.com",
+    phone:1236786543
+},
+
+]
+renderUi(userlist)
+
+    function submit(){
+let username=document.getElementById('username').value
+let password=document.getElementById('password').value
+let email=document.getElementById('email').value
+let phone=document.getElementById('phone').value
+
+let obj={
+username:username,
+password:password,
+email:email,
+phone:phone
+}
+if(editindex== -1){
+userlist.push(obj)
+}
+else{
+    userlist[editindex]=obj
+}
+
+
+
+// userlist.push(obj)
+// console.log(userlist)
+renderUi(userlist)
+
+document.getElementById('username').value=''
+document.getElementById('password').value=''
+document.getElementById('email').value=''
+document.getElementById('phone').value=''
+editindex=-1
+
+  }
+function renderUi(userlist){
+document.getElementById('user').innerHTML=userlist.map((data,i)=>
+`<tr>
+  <td>${i+1}</td>
+  <td>${data.username}</td>  
+  <td>${data.password}</td>
+  <td>${data.email}</td>
+  <td>${data.phone}</td>
+  <td><button class="btn btn-primary btn-sm" onclick="handleEdit(${i})">edit</button><button  class="btn btn-danger btn-sm" onclick="dellist(${i})">delete</button></td>
+  </tr>`).join('')
+}
+function handleEdit(i){
+    editindex=i
+document.getElementById('username').value=userlist[i].username;
+document.getElementById('password').value=userlist[i].password;
+document.getElementById('email').value=userlist[i].email;
+document.getElementById('phone').value=userlist[i].phone;
+}
+function dellist(i){
+userlist.splice(i,1)
+renderUi(userlist)
+}
+
+
+function searchUp(event){
+console.log(event.target.value)
+let res=userlist.filter((data)=>data.username.includes(event.target.value))
+renderUi(res)
+}
+</script>
+   
+</body>
+</html>
